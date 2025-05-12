@@ -3,10 +3,6 @@
     line-height: 1;
 }
 
-.bi-house-fill:hover{
-    transform: scale(1.5);
-}
-
-.nav-link:hover:not(:has(i)){
-    transform: scale(1.1);
+a:not(.active).nav-link:hover{
+    transform: scale(1.2);
 }

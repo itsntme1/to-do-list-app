@@ -34,7 +34,14 @@ def history():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    # user is logging in
+    if request.method == "POST":
+        # TODO validate form fields --> learn about Flask + WTForms
+        if not request.form.get('username'):
+            pass
+    else:
+    # render the form
+        return render_template("login.html")
 
 
 @app.route("/register")
