@@ -1,0 +1,12 @@
+.bi-house-fill{
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.bi-house-fill:hover{
+    transform: scale(1.5);
+}
+
+.nav-link:hover:not(:has(i)){
+    transform: scale(1.1);
+}
