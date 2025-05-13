@@ -3,9 +3,18 @@
 
 from flask import Flask, render_template, request, redirect
 from flask_session import Session
+from cs50 import SQL
 
 
 app = Flask(__name__)
+
+
+db = SQL('sqlite:///todoapp.db')
+
+
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 
 @app.route("/")
@@ -32,21 +41,40 @@ def history():
     return render_template("history.html")
 
 
-@app.route("/login")
-def login():
-    # user is logging in
+@app.route("/register", methods=["GET","POST"])
+def register():
+    # user is registering
     if request.method == "POST":
-        # TODO validate form fields --> learn about Flask + WTForms
-        if not request.form.get('username'):
-            pass
+        is_validating = True
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # validate form fields
+        if not username or not password:
+            return render_template("register.html", is_validating=is_validating, username=username, password=password)
+        else:
+            return redirect('/')
+    else:
+    # render the form
+        return render_template("register.html")
+
+
+@app.route("/login", methods=["GET","POST"])
+def login():
+    # user is registering
+    if request.method == "POST":
+        is_validating = True
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # validate form fields
+        if not username or not password:
+            return render_template("login.html", is_validating=is_validating, username=username, password=password)
+        else:
+            return redirect('/')
     else:
     # render the form
         return render_template("login.html")
-
-
-@app.route("/register")
-def register():
-    return render_template("register.html")
 
 
 if __name__ == "__main__":

@@ -3,11 +3,17 @@
 {% block body %}
 <form action="/register" method="post" class="position-absolute top-50 start-50 translate-middle">
     <div class="mb-3">
-        <input class="form-control mx-auto w-auto" type="text" name="username" placeholder="Username">
+        <input class="form-control mx-auto w-auto
+        {% if username and is_validating %} is-valid {% endif %}
+        {% if not username and is_validating %} is-invalid {% endif %}"
+        type="text" name="username" placeholder="Username" value="{{ username }}">
     </div>
     <div class="mb-3">
-        <input class="form-control mx-auto w-auto" type="password" name="password" placeholder="Password">
+        <input class="form-control mx-auto w-auto
+        {% if password and is_validating %} is-valid {% endif %}
+        {% if not password and is_validating %} is-invalid {% endif %}"
+        type="password" name="password" placeholder="Password" value="{{ password }}">
     </div>
-    <button class="btn btn-primary w-100" type="button">Register</button>
+    <button class="btn btn-primary w-100" type="submit">Register</button>
 </form>
 {% endblock %}
