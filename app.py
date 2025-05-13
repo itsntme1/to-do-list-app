@@ -1,9 +1,10 @@
 # This project is licensed under the MIT License.
 # See the LICENSE file in the root of the repository for details.
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 from cs50 import SQL
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 app = Flask(__name__)
@@ -20,15 +21,10 @@ Session(app)
 @app.route("/")
 def index():
     # if not logged in render landing page
-    if True:
+    if not session.get('user_id'):
         return render_template("landing.html")
 
     return render_template("index.html")
-
-
-@app.route("/landing")
-def landing():
-    return render_template("landing.html")
 
 
 @app.route("/dashboard")
@@ -45,14 +41,24 @@ def history():
 def register():
     # user is registering
     if request.method == "POST":
-        is_validating = True
         username = request.form.get('username')
         password = request.form.get('password')
 
         # validate form fields
         if not username or not password:
-            return render_template("register.html", is_validating=is_validating, username=username, password=password)
+            print('there')
+            return render_template("register.html", is_validating=True, isUnique=False, username=username, password=password)
         else:
+            # try if the username is unique
+            try:
+                # insert user into the database
+                db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
+                        username, generate_password_hash(password))
+                # remember that the user is logged in
+                session['user_id'] = db.execute("SELECT id FROM users WHERE username = ?", username)[0]["id"]
+            except:
+                return render_template("register.html", is_validating=True, isUnique=False, username=username, password=password)
+            
             return redirect('/')
     else:
     # render the form
@@ -61,20 +67,39 @@ def register():
 
 @app.route("/login", methods=["GET","POST"])
 def login():
-    # user is registering
+    # user is logging in
     if request.method == "POST":
-        is_validating = True
         username = request.form.get('username')
         password = request.form.get('password')
 
+        # forget any user_id
+        session.clear()
+
         # validate form fields
         if not username or not password:
-            return render_template("login.html", is_validating=is_validating, username=username, password=password)
-        else:
-            return redirect('/')
+            return render_template("login.html", is_validating=True, username=username, password=password)
+        
+        # get a record of the apropriate username
+        record = db.execute("SELECT * FROM users WHERE username = ?", username)
+
+        # check username and password
+        if len(record) != 1 or not check_password_hash(record[0]["password_hash"], password):
+            return render_template("login.html", is_validating=True, isWrong=True, username=username, password=password)
+        
+        # remember that the user is logged in
+        session['user_id'] = record[0]['id']
+
+        return redirect('/')
     else:
     # render the form
         return render_template("login.html")
+    
+
+@app.route('/logout')
+def logout():
+    session.clear()
+
+    return redirect('/')
 
 
 if __name__ == "__main__":
