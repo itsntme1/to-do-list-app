@@ -2,19 +2,19 @@
 
 {% block body %}
 <form action="/login" method="post" class="position-absolute top-50 start-50 translate-middle">
-    <div class="mb-3">
-        <input autocomplete="off" auto class="form-control mx-auto w-auto
+    <div class="mb-4">
+        <input autocomplete="off" auto class="form-control mx-auto
         {% if username and is_validating and isUnique %} is-valid {% endif %}
         {% if (not username or isWrong) and is_validating %} is-invalid {% endif %}"
         type="text" name="username" placeholder="Username" value="{{ username }}">
     </div>
-    <div class="mb-3">
-        <input class="form-control mx-auto w-auto
+    <div class="mb-4">
+        <input class="form-control mx-
         {% if password and is_validating %} is-valid {% endif %}
         {% if (not password or not isUnique) and is_validating %} is-invalid {% endif %}"
         type="password" name="password" placeholder="Password">
         {% if is_validating and isWrong and password %}
-        <div class="invalid-feedback">Wrong Username or Password</div>
+        <div class="invalid-feedback d">Wrong Username or Password</div>
         {% endif %}
     </div>
     <button class="btn btn-primary w-100" type="submit">Log In</button>

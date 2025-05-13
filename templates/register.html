@@ -2,15 +2,15 @@
 
 {% block body %}
 <form action="/register" method="post" class="position-absolute top-50 start-50 translate-middle">
-    <div class="mb-3">
-        <input autocomplete="off" auto class="form-control mx-auto w-auto
+    <div class="mb-4">
+        <input autocomplete="off" auto class="form-control mx-auto
         {% if username and is_validating and isUnique %} is-valid {% endif %}
         {% if (not username or not isUnique) and is_validating %} is-invalid {% endif %}"
         type="text" name="username" placeholder="Username" value="{{ username }}">
         {% if is_validating and not isUnique and username %}<div class="invalid-feedback">Username must be unique</div>{% endif %}
     </div>
-    <div class="mb-3">
-        <input class="form-control mx-auto w-auto
+    <div class="mb-4">
+        <input class="form-control mx-auto
         {% if password and is_validating %} is-valid {% endif %}
         {% if not password and is_validating %} is-invalid {% endif %}"
         type="password" name="password" placeholder="Password">
