@@ -13,15 +13,17 @@
 </head>
 <body>
     <nav class="navbar border-bottom border-1 border-secondary-subtle shadow-sm">
-        <ul class="nav nav-pills ms-lg-2 me-sm-2">
+        <ul class="nav nav-pills ms-2 me-2">
             <li class="nav-item">
                 <a href="/" class="nav-link d-flex align-items-center {% if request.path == '/' %}active{% endif %}"><i class="bi bi-house-fill"></i></a></li>
+            {% if session['user_id'] %}
             <li class="nav-item">
                 <a href="/dashboard" class="nav-link {% if request.path == '/dashboard' %}active{% endif %}">Dashboard</a></li>
             <li class="nav-item">
                 <a href="/history" class="nav-link {% if request.path == '/history' %}active{% endif %}">History</a></li>
+            {% endif %}
         </ul>
-        <ul class="nav nav-pills ms-sm-2 me-sm-2">
+        <ul class="nav nav-pills me-2">
             {% if session['user_id'] %}
             <li class="nav-item"><a href="/logout" class="nav-link">Log Out</a></li>
             {% else %}
