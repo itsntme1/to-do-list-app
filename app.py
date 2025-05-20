@@ -6,6 +6,8 @@ from flask_session import Session
 from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from flask_filters import *
+
 
 app = Flask(__name__)
 
@@ -17,6 +19,10 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# register filters
+app.jinja_env.filters['isEmpty'] = isEmpty
+app.jinja_env.filters['format_date'] = format_date
+
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -27,7 +33,7 @@ def index():
         priority = request.form.get('priority')
 
         # validation
-        if not content:
+        if not content or len(content) > 60:
             return render_template("index.html")
         
         # insert a task into the tasks table
@@ -51,7 +57,9 @@ def dashboard():
 
 @app.route("/history")
 def history():
-    return render_template("history.html")
+    records = db.execute("SELECT content, creation_date, due_date, priority, status FROM tasks WHERE user_id = ? ORDER BY creation_date DESC", session["user_id"])
+
+    return render_template("history.html", records=records)
 
 
 @app.route("/register", methods=["GET","POST"])

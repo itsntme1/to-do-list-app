@@ -3,21 +3,31 @@
 {% block title %}
     - History
 {% endblock %}
-<table>
+{% block body %}
+<div class="table-responsive">
+<table class="table">
     <thead>
         <tr>
             <th>Content</th>
-            <th>Date</th>
+            <th>Date Created</th>
+            <th>Due Date</th>
             <th>Priority</th>
             <th>Status</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>test</td>
-        </tr>
+    <tbody class="table-group-divider">
+        {% for record in records %}
+            <tr>
+                <td>{{ record.content }}</td>
+                <td>{{ record.creation_date | format_date }}</td>
+                <td class="{% if record.due_date | isEmpty %} table-warning {% endif %}">
+                    {{ record.due_date }}</td>
+                <td class="{% if record.priority | isEmpty %} table-warning {% endif %}">
+                    {{ record.priority }}</td>
+                <td class="{% if record.status == 'completed' %} table-success {% else %} table-danger {% endif %}">{{ record.status | upper }}</td>
+            </tr>
+        {% endfor %}
     </tbody>
 </table>
-{% block body %}
-
+</div>
 {% endblock %}
