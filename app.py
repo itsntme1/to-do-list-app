@@ -18,13 +18,30 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def index():
-    # if not logged in render landing page
-    if not session.get('user_id'):
-        return render_template("landing.html")
+    # user is submitting a new task
+    if request.method == 'POST':
+        content = request.form.get('content')
+        date = request.form.get('date')
+        priority = request.form.get('priority')
 
-    return render_template("index.html")
+        # validation
+        if not content:
+            return render_template("index.html")
+        
+        # insert a task into the tasks table
+        db.execute("INSERT INTO tasks (user_id, content, due_date, priority) VALUES(?, ?, ?, ?)",
+                   session['user_id'], content, date, priority)
+
+        return render_template("index.html")
+
+    else:
+        # if not logged in render landing page
+        if not session.get('user_id'):
+            return render_template("landing.html")
+
+        return render_template("index.html")
 
 
 @app.route("/dashboard")
