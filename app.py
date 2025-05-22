@@ -1,7 +1,7 @@
 # This project is licensed under the MIT License.
 # See the LICENSE file in the root of the repository for details.
 
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify
 from flask_session import Session
 from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -40,14 +40,14 @@ def index():
         db.execute("INSERT INTO tasks (user_id, content, due_date, priority) VALUES(?, ?, ?, ?)",
                    session['user_id'], content, date, priority)
 
-        return render_template("index.html")
+    # if logged in
+    elif session.get('user_id'):
+        tasks = db.execute("SELECT id, content, due_date FROM tasks WHERE user_id = ? ORDER BY due_date ASC", session["user_id"])
+        
+        return render_template("index.html", tasks=tasks)
 
     else:
-        # if not logged in render landing page
-        if not session.get('user_id'):
-            return render_template("landing.html")
-
-        return render_template("index.html")
+        return render_template("landing.html")
 
 
 @app.route("/dashboard")
@@ -125,6 +125,19 @@ def logout():
     session.clear()
 
     return redirect('/')
+
+
+@app.route('/delete_task', methods=['POST'])
+def delete_task():
+    data = request.get_json()
+    task_id = data.get('id')
+
+    if task_id:
+        db.execute("DELETE FROM tasks WHERE id = ? AND user_id = ?", task_id, session["user_id"])
+
+        return jsonify({'success': True})
+
+    return jsonify({'success': False, 'error': 'Task not found'}), 404
 
 
 if __name__ == "__main__":
