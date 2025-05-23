@@ -39,6 +39,8 @@ def index():
         # insert a task into the tasks table
         db.execute("INSERT INTO tasks (user_id, content, due_date, priority) VALUES(?, ?, ?, ?)",
                    session['user_id'], content, date, priority)
+        
+        return redirect('/')
 
     # if logged in
     elif session.get('user_id'):
