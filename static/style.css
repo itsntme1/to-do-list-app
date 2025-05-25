@@ -10,7 +10,3 @@ a:not(.active).nav-link:hover{
 form {
     width: 300px;
 }
-
-#add_box{
-    width: 300px;
-}

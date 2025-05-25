@@ -1,10 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h3>Home</h3>
-
-    <div class="border border-black border-2 rounded p-1" id="pending_tasks">
-        <h5>Pending tasks</h5>
+    <div class="p-1" id="pending_tasks">
+        <h4>Pending tasks</h4>
         <form action="/" method="post">
             <ul class="list-group">
                 {% for task in tasks %}
@@ -19,20 +17,26 @@
         </form>
     </div>
 
-    <div class="border border-black border-2 rounded p-1" id="add_box">
+    <div class="container position-absolute bottom-0 start-50 translate-middle w-100" id="add_box">
         <form action="/" method="post" class="w-auto">
-            <div>
-                <input class="form-control" type="text" name="content" placeholder="Content" required autocomplete="off" autofocus>
-                <div class="d-flex flex-wrap input-group mt-2">
-                    <input type="date" class="form-control w-50" name="date">
-                    <select class="form-select w-50" name="priority">
-                        <option selected disabled>No Priority</option>
-                        <option value="1">Priority 1</option>
-                        <option value="2">Priority 2</option>
-                        <option value="3">Priority 3</option>
-                    </select>
+            <div class="row">
+                <div class="col-12 col-md-5 p-0 pe-md-2">
+                    <input class="form-control w-100" type="text" name="content" placeholder="Content" required autocomplete="off" autofocus>
                 </div>
-                <button class="btn btn-primary w-100 mt-2" type="submit">Submit</button>
+                <div class="col-12 col-md-5 p-0 pe-md-2">
+                    <div class="input-group w-100">
+                        <input type="date" class="form-control" name="date">
+                        <select class="form-select" name="priority">
+                            <option selected disabled>No Priority</option>
+                            <option value="1">Priority 1</option>
+                            <option value="2">Priority 2</option>
+                            <option value="3">Priority 3</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2 p-0">
+                    <button class="btn btn-primary w-100" type="submit">Submit</button>
+                </div>
             </div>
         </form>
     </div>
