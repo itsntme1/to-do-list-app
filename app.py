@@ -34,7 +34,7 @@ def index():
 
         # validation
         if not content or len(content) > 60:
-            return render_template("index.html")
+            return redirect('/')
         
         # insert a task into the tasks table
         db.execute("INSERT INTO tasks (user_id, content, due_date, priority) VALUES(?, ?, ?, ?)",
@@ -44,9 +44,11 @@ def index():
 
     # if logged in
     elif session.get('user_id'):
-        tasks = db.execute("SELECT id, content, due_date FROM tasks WHERE user_id = ? ORDER BY due_date ASC", session["user_id"])
+        upcoming_tasks = db.execute("SELECT id, content, due_date, priority FROM tasks WHERE user_id = ? AND status == 'pending' ORDER BY due_date == '', due_date ASC", session["user_id"])
+
+        important_tasks = db.execute("SELECT id, content, priority FROM tasks WHERE user_id = ? AND priority != '' AND status == 'pending' ORDER BY priority DESC", session["user_id"])
         
-        return render_template("index.html", tasks=tasks)
+        return render_template("index.html", upcoming_tasks=upcoming_tasks, important_tasks=important_tasks)
 
     else:
         return render_template("landing.html")
@@ -134,8 +136,12 @@ def delete_task():
     data = request.get_json()
     task_id = data.get('id')
 
+    print('here')
+
     if task_id:
-        db.execute("DELETE FROM tasks WHERE id = ? AND user_id = ?", task_id, session["user_id"])
+        db.execute("UPDATE tasks SET status = 'completed' WHERE id = ?", task_id)
+
+        print('there')
 
         return jsonify({'success': True})
 

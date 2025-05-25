@@ -7,6 +7,20 @@ a:not(.active).nav-link:hover{
     transform: scale(1.1);
 }
 
-form {
+.auth {
     width: 300px;
+}
+
+#add_box {
+    bottom: 10vh;
+}
+
+#home_tasks{
+    margin-bottom: 140px;
+}
+
+@media screen and (max-width: 768px) {
+    #add_box {
+        bottom: 1vw !important;
+    }
 }

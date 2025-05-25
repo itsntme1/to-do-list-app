@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<form action="/register" method="post" class="position-absolute top-50 start-50 translate-middle">
+<form action="/register" method="post" class="auth position-absolute top-50 start-50 translate-middle">
     <div class="mb-4">
         <input autocomplete="off" auto class="form-control mx-auto
         {% if username and is_validating and isUnique %} is-valid {% endif %}

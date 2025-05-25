@@ -1,29 +1,70 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <div class="p-1" id="pending_tasks">
-        <h4>Pending tasks</h4>
-        <form action="/" method="post">
-            <ul class="list-group">
-                {% for task in tasks %}
-                    <li class="list-group-item d-flex align-items-center">
-                        <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
-                        value="{{ task.id }}">
-                        <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
-                        <span class="badge text-bg-danger rounded-pill">{{ task.due_date }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </form>
+    <div class="p-1 row position-relative start-50 translate-middle-x w-100" id="home_tasks">
+        <div class="col-12 col-md-6 mt-3" id="upcoming_tasks">
+            <h5>Upcoming Tasks</h5>
+            <form action="/" method="post">
+                <ul class="list-group">
+                    {% for task in upcoming_tasks %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
+                            value="{{ task.id }}">
+                            <label class="form-check-label me-auto text-truncate" for="task{{ task.id }}">{{ task.content }}</label>
+                            {% if task.priority %}
+                                <span class="badge
+                                {% if task.priority == 3 %}
+                                    text-bg-danger
+                                {% elif task.priority == 2 %}
+                                    text-white bg-warning
+                                {% elif task.priority == 1 %}
+                                    text-bg-success
+                                {% endif %}
+                                rounded-pill">{{ task.priority }}</span>
+                            {% endif %}
+                            <span class="badge
+                            {% if task.priority %}
+                                ms-1
+                            {% endif %}
+                            text-bg-primary rounded-pill">{{ task.due_date }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+
+        <div class="col-12 col-md-6 mt-3">
+            <h5>Important Tasks</h5>
+            <form action="/" method="post">
+                <ul class="list-group">
+                    {% for task in important_tasks %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
+                            value="{{ task.id }}">
+                            <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
+                            <span class="badge
+                            {% if task.priority == 3 %}
+                                text-bg-danger
+                            {% elif task.priority == 2 %}
+                                text-white bg-warning
+                            {% elif task.priority == 1 %}
+                                text-bg-success
+                            {% endif %}
+                            rounded-pill">{{ task.priority }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
     </div>
 
-    <div class="container position-absolute bottom-0 start-50 translate-middle w-100" id="add_box">
+    <div class="container position-fixed start-50 translate-middle-x w-100" id="add_box">
         <form action="/" method="post" class="w-auto">
             <div class="row">
-                <div class="col-12 col-md-5 p-0 pe-md-2">
+                <div class="col-12 col-md-5 p-0 pe-md-2 mt-2">
                     <input class="form-control w-100" type="text" name="content" placeholder="Content" required autocomplete="off" autofocus>
                 </div>
-                <div class="col-12 col-md-5 p-0 pe-md-2">
+                <div class="col-12 col-md-5 p-0 pe-md-2 mt-2">
                     <div class="input-group w-100">
                         <input type="date" class="form-control" name="date">
                         <select class="form-select" name="priority">
@@ -34,7 +75,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-md-2 p-0">
+                <div class="col-12 col-md-2 p-0 mt-2">
                     <button class="btn btn-primary w-100" type="submit">Submit</button>
                 </div>
             </div>
@@ -59,8 +100,10 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    let task_item = this.closest('li');
-                    if (task_item) task_item.remove();
+                    document.querySelectorAll(`.task-checkbox[value="${task_id}"]`).forEach(cb => {
+                        let task_item = cb.closest('li');
+                        if (task_item) task_item.remove();
+                    });
                 }
             })
             .catch(error => console.error('Error deleting task:', error));
