@@ -20,8 +20,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # register filters
-app.jinja_env.filters['isEmpty'] = isEmpty
+app.jinja_env.filters['formatNone'] = formatNone
 app.jinja_env.filters['format_date'] = format_date
+app.jinja_env.filters['priorityTextBgColor'] = priorityTextBgColor
+app.jinja_env.filters['priorityTableColor'] = priorityTableColor
 
 
 @app.route("/", methods=['GET', 'POST'])

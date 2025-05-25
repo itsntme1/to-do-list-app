@@ -20,10 +20,8 @@
             <tr>
                 <td>{{ record.content }}</td>
                 <td>{{ record.creation_date | format_date }}</td>
-                <td class="{% if record.due_date | isEmpty %} table-warning {% endif %}">
-                    {{ record.due_date }}</td>
-                <td class="{% if record.priority | isEmpty %} table-warning {% endif %}">
-                    {{ record.priority }}</td>
+                <td>{{ record.due_date }}</td>
+                <td class="{{ record.priority | priorityTableColor }}">{{ record.priority | formatNone }}</td>
                 <td class="{% if record.status == 'completed' %} table-success {% else %} table-danger {% endif %}">{{ record.status | upper }}</td>
             </tr>
         {% endfor %}

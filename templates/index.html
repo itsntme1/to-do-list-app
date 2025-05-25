@@ -12,15 +12,7 @@
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto text-truncate" for="task{{ task.id }}">{{ task.content }}</label>
                             {% if task.priority %}
-                                <span class="badge
-                                {% if task.priority == 3 %}
-                                    text-bg-danger
-                                {% elif task.priority == 2 %}
-                                    text-white bg-warning
-                                {% elif task.priority == 1 %}
-                                    text-bg-success
-                                {% endif %}
-                                rounded-pill">{{ task.priority }}</span>
+                                <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority }}</span>
                             {% endif %}
                             <span class="badge
                             {% if task.priority %}
@@ -42,15 +34,7 @@
                             <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
-                            <span class="badge
-                            {% if task.priority == 3 %}
-                                text-bg-danger
-                            {% elif task.priority == 2 %}
-                                text-white bg-warning
-                            {% elif task.priority == 1 %}
-                                text-bg-success
-                            {% endif %}
-                            rounded-pill">{{ task.priority }}</span>
+                            <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority }}</span>
                         </li>
                     {% endfor %}
                 </ul>
