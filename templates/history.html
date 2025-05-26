@@ -18,7 +18,7 @@
     <tbody class="table-group-divider">
         {% for record in records %}
             <tr>
-                <td>{{ record.content }}</td>
+                <td class="text-truncate">{{ record.content }}</td>
                 <td>{{ record.creation_date | format_date }}</td>
                 <td>{{ record.due_date }}</td>
                 <td class="{{ record.priority | priorityTableColor }}">{{ record.priority | formatNone }}</td>
