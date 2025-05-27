@@ -31,11 +31,11 @@ def priority_table_color(priority):
     
 def format_priority(priority):
     if priority == 3:
-        return 'Hard'
+        return 'Critical'
     elif priority == 2:
-        return 'Medium'
+        return 'Necessary'
     elif priority == 1:
-        return 'Easy'
+        return 'Optional'
     else:
         return priority
     

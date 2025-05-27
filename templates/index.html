@@ -19,7 +19,7 @@
                                 ms-1
                             {% endif %}
                             text-bg-primary rounded-pill">{{ task.due_date }}</span>
-                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black"></i></button>
+                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black-50"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -36,7 +36,7 @@
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
                             <span class="badge {{ task.priority | priority_text_bg_color }} rounded-pill">{{ task.priority | format_priority }}</span>
-                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black"></i></button>
+                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black-50"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -55,9 +55,9 @@
                         <input type="date" class="form-control" name="date">
                         <select class="form-select" name="priority">
                             <option selected disabled>No Priority</option>
-                            <option value="3">Hard</option>
-                            <option value="2">Medium</option>
-                            <option value="1">Easy</option>
+                            <option value="3">Critical</option>
+                            <option value="2">Necessary</option>
+                            <option value="1">Optional</option>
                         </select>
                     </div>
                 </div>
