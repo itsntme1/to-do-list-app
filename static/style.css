@@ -15,8 +15,14 @@ a:not(.active).nav-link:hover{
     bottom: 10vh;
 }
 
-#home_tasks{
+#home_tasks {
     margin-bottom: 140px;
+}
+
+.task-cancel {
+    border: none;
+    background: none;
+    margin-left: 0.25rem;
 }
 
 @media screen and (max-width: 768px) {

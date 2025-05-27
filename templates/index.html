@@ -7,18 +7,19 @@
             <form action="/" method="post">
                 <ul class="list-group">
                     {% for task in upcoming_tasks %}
-                        <li class="list-group-item d-flex align-items-center">
+                        <li class="list-group-item d-flex align-items-center pe-2">
                             <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto text-truncate" for="task{{ task.id }}">{{ task.content }}</label>
                             {% if task.priority %}
-                                <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority | format_priority }}</span>
+                                <span class="badge {{ task.priority | priority_text_bg_color }} rounded-pill">{{ task.priority | format_priority }}</span>
                             {% endif %}
                             <span class="badge
                             {% if task.priority %}
                                 ms-1
                             {% endif %}
                             text-bg-primary rounded-pill">{{ task.due_date }}</span>
+                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -30,11 +31,12 @@
             <form action="/" method="post">
                 <ul class="list-group">
                     {% for task in important_tasks %}
-                        <li class="list-group-item d-flex align-items-center">
+                        <li class="list-group-item d-flex align-items-center pe-1">
                             <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
-                            <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority | format_priority }}</span>
+                            <span class="badge {{ task.priority | priority_text_bg_color }} rounded-pill">{{ task.priority | format_priority }}</span>
+                            <button class="task-cancel" id="task{{ task.id }}" value="{{ task.id }}"><i class="bi bi-trash-fill text-black"></i></button>
                         </li>
                     {% endfor %}
                 </ul>
@@ -74,7 +76,7 @@
         checkbox.addEventListener('change', function (){
             let task_id = this.value;
 
-            fetch('/delete_task', {
+            fetch('/complete_task', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -90,7 +92,32 @@
                     });
                 }
             })
-            .catch(error => console.error('Error deleting task:', error));
+            .catch(error => console.error('Error completing task:', error));
+        });
+    });
+
+
+    document.querySelectorAll('.task-cancel').forEach(checkbox => {
+        checkbox.addEventListener('click', function (){
+            let task_id = this.value;
+
+            fetch('/cancel_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: task_id} )
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelectorAll(`.task-cancel[value="${task_id}"]`).forEach(cb => {
+                        let task_item = cb.closest('li');
+                        if (task_item) task_item.remove();
+                    });
+                }
+            })
+            .catch(error => console.error('Error canceling task:', error));
         });
     });
 </script>

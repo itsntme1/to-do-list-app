@@ -20,11 +20,12 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # register filters
-app.jinja_env.filters['formatNone'] = formatNone
+app.jinja_env.filters['format_none'] = format_none
 app.jinja_env.filters['format_date'] = format_date
 app.jinja_env.filters['format_priority'] = format_priority
-app.jinja_env.filters['priorityTextBgColor'] = priorityTextBgColor
-app.jinja_env.filters['priorityTableColor'] = priorityTableColor
+app.jinja_env.filters['priority_text_bg_color'] = priority_text_bg_color
+app.jinja_env.filters['priority_table_color'] = priority_table_color
+app.jinja_env.filters['format_status_table'] = format_status_table
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -134,8 +135,8 @@ def logout():
     return redirect('/')
 
 
-@app.route('/delete_task', methods=['POST'])
-def delete_task():
+@app.route('/complete_task', methods=['POST'])
+def complete_task():
     data = request.get_json()
     task_id = data.get('id')
 
@@ -144,7 +145,20 @@ def delete_task():
     if task_id:
         db.execute("UPDATE tasks SET status = 'completed' WHERE id = ?", task_id)
 
-        print('there')
+        return jsonify({'success': True})
+
+    return jsonify({'success': False, 'error': 'Task not found'}), 404
+
+
+@app.route('/cancel_task', methods=['POST'])
+def cancel_task():
+    data = request.get_json()
+    task_id = data.get('id')
+
+    print('here')
+
+    if task_id:
+        db.execute("UPDATE tasks SET status = 'canceled' WHERE id = ?", task_id)
 
         return jsonify({'success': True})
 

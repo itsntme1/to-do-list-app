@@ -1,6 +1,6 @@
 from datetime import datetime
 
-def formatNone(val):
+def format_none(val):
     if not val or str == None:
         return ''
     
@@ -9,7 +9,7 @@ def formatNone(val):
 def format_date(date):
     return datetime.fromisoformat(date).strftime('%Y-%m-%d')
 
-def priorityTextBgColor(priority):
+def priority_text_bg_color(priority):
     if priority == 3:
         return 'text-bg-danger'
     elif priority == 2:
@@ -19,7 +19,7 @@ def priorityTextBgColor(priority):
     else:
         return ''
     
-def priorityTableColor(priority):
+def priority_table_color(priority):
     if priority == 3:
         return 'table-danger'
     elif priority == 2:
@@ -38,3 +38,13 @@ def format_priority(priority):
         return 'Easy'
     else:
         return priority
+    
+def format_status_table(status):
+    if status == 'completed':
+        return 'table-success'
+    elif status == 'canceled':
+        return 'table-danger'
+    elif status == 'pending':
+        return 'table-warning'
+    else:
+        return ''
