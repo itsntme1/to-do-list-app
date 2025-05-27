@@ -12,7 +12,7 @@
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto text-truncate" for="task{{ task.id }}">{{ task.content }}</label>
                             {% if task.priority %}
-                                <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority }}</span>
+                                <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority | format_priority }}</span>
                             {% endif %}
                             <span class="badge
                             {% if task.priority %}
@@ -34,7 +34,7 @@
                             <input class="form-check-input me-2 task-checkbox" type="checkbox" id="task{{ task.id }}"
                             value="{{ task.id }}">
                             <label class="form-check-label me-auto" for="task{{ task.id }}">{{ task.content }}</label>
-                            <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority }}</span>
+                            <span class="badge {{ task.priority | priorityTextBgColor }} rounded-pill">{{ task.priority | format_priority }}</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -53,9 +53,9 @@
                         <input type="date" class="form-control" name="date">
                         <select class="form-select" name="priority">
                             <option selected disabled>No Priority</option>
-                            <option value="1">Priority 1</option>
-                            <option value="2">Priority 2</option>
-                            <option value="3">Priority 3</option>
+                            <option value="3">Hard</option>
+                            <option value="2">Medium</option>
+                            <option value="1">Easy</option>
                         </select>
                     </div>
                 </div>

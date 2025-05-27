@@ -21,7 +21,7 @@
                 <td class="text-truncate">{{ record.content }}</td>
                 <td>{{ record.creation_date | format_date }}</td>
                 <td>{{ record.due_date }}</td>
-                <td class="{{ record.priority | priorityTableColor }}">{{ record.priority | formatNone }}</td>
+                <td class="{{ record.priority | priorityTableColor }}">{{ record.priority | formatNone | format_priority }}</td>
                 <td class="{% if record.status == 'completed' %} table-success {% else %} table-danger {% endif %}">{{ record.status | upper }}</td>
             </tr>
         {% endfor %}

@@ -28,3 +28,13 @@ def priorityTableColor(priority):
         return 'table-success'
     else:
         return ''
+    
+def format_priority(priority):
+    if priority == 3:
+        return 'Hard'
+    elif priority == 2:
+        return 'Medium'
+    elif priority == 1:
+        return 'Easy'
+    else:
+        return priority
