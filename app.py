@@ -7,6 +7,7 @@ from cs50 import SQL
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flask_filters import *
+from helpers import *
 
 
 app = Flask(__name__)
@@ -57,13 +58,14 @@ def index():
     else:
         return render_template("landing.html")
 
-
 @app.route("/dashboard")
+@login_required
 def dashboard():
     return render_template("dashboard.html")
 
 
 @app.route("/history")
+@login_required
 def history():
     records = db.execute("SELECT content, creation_date, due_date, priority, status FROM tasks WHERE user_id = ? ORDER BY creation_date DESC", session["user_id"])
 
