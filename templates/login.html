@@ -3,7 +3,7 @@
 {% block body %}
 <form action="/login" method="post" class="auth position-absolute top-50 start-50 translate-middle">
     <div class="mb-4">
-        <input autocomplete="off" auto class="form-control mx-auto
+        <input autocomplete="off" autofocus auto class="form-control mx-auto
         {% if username and is_validating and isUnique %} is-valid {% endif %}
         {% if (not username or isWrong) and is_validating %} is-invalid {% endif %}"
         type="text" name="username" placeholder="Username" value="{{ username }}">
