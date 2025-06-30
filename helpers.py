@@ -20,6 +20,4 @@ def plot_pie(data: list[int], labels: list[str]):
 
     plt.show()
 
-//starship prompt test 3
-//
-//
+//starship prompt test 4
