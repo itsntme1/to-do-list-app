@@ -19,5 +19,3 @@ def plot_pie(data: list[int], labels: list[str]):
     plt.pie(data, labels=labels)
 
     plt.show()
-
-//starship prompt test 4
