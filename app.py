@@ -58,11 +58,6 @@ def index():
     else:
         return render_template("landing.html")
 
-@app.route("/dashboard")
-@login_required
-def dashboard():
-    return render_template("dashboard.html")
-
 
 @app.route("/history")
 @login_required
